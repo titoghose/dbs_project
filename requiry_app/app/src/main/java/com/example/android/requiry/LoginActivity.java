@@ -1,0 +1,80 @@
+package com.example.android.requiry;
+
+import android.content.Intent;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class LoginActivity extends AppCompatActivity {
+
+    private AutoCompleteTextView mEnterUsername;
+    private EditText mEnterPassword;
+    private ProgressBar mProgressBar;
+    private Button mSignInButton;
+    private Button mSignUpButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        ActionBar actionBar = getSupportActionBar();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.action_bar, null);
+        TextView actionbar_title = (TextView)v.findViewById(R.id.action_bar_title);
+        actionbar_title.setText("Sign In");
+        assert actionBar != null;
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        v.setLayoutParams(params);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(v);
+
+
+        mEnterUsername = (AutoCompleteTextView) findViewById(R.id.username);
+        mEnterPassword = (EditText) findViewById(R.id.password);
+        mSignInButton = (Button) findViewById(R.id.signIn_button);
+        mSignUpButton = (Button) findViewById(R.id.signUp_button);
+
+        mSignInButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(validUsername() && validPassword()){
+                    Intent moveToProFeed = new Intent(LoginActivity.this, ProFeedActivity.class);
+                    startActivity(moveToProFeed);
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private boolean validUsername() {
+        final String email = String.valueOf(mEnterUsername.getText());
+
+        return true;
+    }
+    private boolean validPassword() {
+        final String password = String.valueOf(mEnterPassword.getText());
+
+        return true;
+    }
+}
