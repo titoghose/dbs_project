@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,12 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.example.android.requiry.SignUpActivity">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/input_nameTextView"
             android:layout_width="wrap_content"
@@ -20,7 +24,8 @@
             tools:text = "Name"
             android:text="@string/user_name"
             android:textSize="18sp"
-            android:paddingRight="16dp"/>
+            android:paddingRight="16dp"
+            android:textColor="#000000"/>
         <EditText
             android:id="@+id/input_nameEditText"
             android:layout_width="match_parent"
@@ -29,7 +34,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/input_numberTextView"
             android:layout_width="wrap_content"
@@ -37,7 +43,8 @@
             tools:text = "Phone Number"
             android:text="@string/user_number"
             android:textSize="18sp"
-            android:paddingRight="16dp"/>
+            android:paddingRight="16dp"
+            android:textColor="#000000"/>
         <EditText
             android:id="@+id/input_numberEditText"
             android:layout_width="match_parent"
@@ -47,7 +54,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/input_usernameTextView"
             android:layout_width="wrap_content"
@@ -55,7 +63,8 @@
             tools:text = "Username"
             android:text="@string/user_username"
             android:textSize="18sp"
-            android:paddingRight="16dp"/>
+            android:paddingRight="16dp"
+            android:textColor="#000000"/>
         <EditText
             android:id="@+id/input_usernameEditText"
             android:layout_width="match_parent"
@@ -64,7 +73,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/input_passwordTextView"
             android:layout_width="wrap_content"
@@ -72,6 +82,7 @@
             tools:text = "Password"
             android:text="@string/user_password"
             android:textSize="18sp"
+            android:textColor="#000000"
             android:paddingRight="16dp"/>
         <EditText
             android:id="@+id/input_passwordEditText"
@@ -90,6 +101,7 @@
             android:layout_weight="1"
             android:text="@string/who"
             android:textSize="18sp"
+            android:textColor="#000000"
             android:paddingRight="16dp"/>
         <RadioGroup
             android:layout_width="wrap_content"
@@ -124,5 +136,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:text="Register"
-        android:onClick="registerUser"/>
-</LinearLayout>
+        android:onClick="registerUser"
+        android:background="@android:color/transparent"
+        android:textColor="#e98000"
+        android:textStyle="bold"/>
+    </LinearLayout>
+</ScrollView>

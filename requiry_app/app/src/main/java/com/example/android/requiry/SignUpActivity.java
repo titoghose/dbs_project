@@ -36,10 +36,10 @@ public class SignUpActivity extends AppCompatActivity{
         radioGroup = (RadioGroup) findViewById(R.id.whoradiogroup);
     }
     public void registerUser(View view){
-        Integer number = null;
+        Long number = null;
         String name = mNameEditText.getText().toString().trim();
         if(!TextUtils.isEmpty(mNumberEditText.getText().toString().trim()))
-            number  = Integer.parseInt(mNumberEditText.getText().toString());
+            number  = Long.parseLong(mNumberEditText.getText().toString());
 
         String username = mUsernameEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
