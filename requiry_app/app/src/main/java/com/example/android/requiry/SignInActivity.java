@@ -33,9 +33,6 @@ public class SignInActivity extends AppCompatActivity {
         TextView actionbar_title = (TextView)v.findViewById(R.id.action_bar_title);
         actionbar_title.setText("Sign In");
         assert actionBar != null;
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        v.setLayoutParams(params);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
 
@@ -62,7 +59,7 @@ public class SignInActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveToSignUp = new Intent(SignInActivity.this, SignUpActivity.class);
+                Intent moveToSignUp = new Intent(SignInActivity.this, CreateProjectActivity.class);
                 startActivity(moveToSignUp);
             }
         });
