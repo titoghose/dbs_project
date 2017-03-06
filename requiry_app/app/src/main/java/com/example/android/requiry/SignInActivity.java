@@ -1,10 +1,9 @@
 package com.example.android.requiry;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -59,7 +58,7 @@ public class SignInActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveToSignUp = new Intent(SignInActivity.this, CreateProjectActivity.class);
+                Intent moveToSignUp = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(moveToSignUp);
             }
         });
