@@ -33,11 +33,11 @@
             android:label="ProFeed" />
         <activity android:name=".CreateProjectActivity" />
         <activity android:name=".ProjectActivity" />
-
+<<<<<<< HEAD
         <activity android:name=".ProfileActivity"></activity>
-
+=======
         <activity android:name=".DiscussionActivity"></activity>
-
+>>>>>>> tito
     </application>
 
 </manifest>

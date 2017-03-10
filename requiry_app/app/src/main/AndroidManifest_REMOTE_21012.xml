@@ -33,11 +33,7 @@
             android:label="ProFeed" />
         <activity android:name=".CreateProjectActivity" />
         <activity android:name=".ProjectActivity" />
-
-        <activity android:name=".ProfileActivity"></activity>
-
         <activity android:name=".DiscussionActivity"></activity>
-
     </application>
 
 </manifest>
