@@ -1,13 +1,10 @@
 package com.example.android.requiry;
 
-<<<<<<< HEAD
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ProjectActivity extends AppCompatActivity {
-    TextView mProjectTextView;
-=======
 import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.ActionBar;
@@ -31,14 +28,11 @@ public class ProjectActivity extends AppCompatActivity {
     private TextView mStarted;
     private TextView mETC;
 
->>>>>>> tito
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-<<<<<<< HEAD
-=======
 
         mName = (TextView) findViewById(R.id.pName_textView);
         mCreator = (TextView) findViewById(R.id.pCreator_textView);
@@ -84,7 +78,5 @@ public class ProjectActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
-
->>>>>>> tito
     }
 }
