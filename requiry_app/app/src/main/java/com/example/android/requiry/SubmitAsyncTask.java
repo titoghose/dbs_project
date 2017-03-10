@@ -104,6 +104,6 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
         myCallback.postData(result);
     }
     public interface InformComplete{
-        public void postData(String result);
+        void postData(String result);
     }
 }

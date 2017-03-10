@@ -1,6 +1,8 @@
 package com.example.android.requiry;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -45,12 +48,20 @@ public class CreateProjectActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
+
+        mName = (AutoCompleteTextView) findViewById(R.id.pName_editText);
+        mDomain = (AutoCompleteTextView) findViewById(R.id.pDomain_editText);
+        mLinks = (EditText) findViewById(R.id.pLinks_editText);
+        mDesc = (AutoCompleteTextView) findViewById(R.id.pDesc_editText);
+        mETC = (EditText) findViewById(R.id.pETC_editText);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.action_bar_menu, menu);
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.action_bar_menu, menu);
         return super.onCreateOptionsMenu(menu);
+
     }
 
     // handle button activities
@@ -59,12 +70,12 @@ public class CreateProjectActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.create_button) {
-            createProj();
+            createProject();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void createProj() {
+    private void createProject() {
         String name = mName.getText().toString().trim();
         String domain = mDomain.getText().toString().trim();
         String links = mLinks.getText().toString().trim();
@@ -73,12 +84,15 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         if(name.length()==0){
             mName.setError("Cannot leave empty");
+            return;
         }
         if(domain.length()==0){
             mDomain.setError("Cannot leave empty");
+            return;
         }
         if(desc.length()==0){
             mDesc.setError("Cannot leave empty");
+            return;
         }
 
         try {
@@ -92,5 +106,25 @@ public class CreateProjectActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+
+        SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
+            @Override
+            public void postData(String result) {
+                mName.setText("");
+                mDomain.setText("");
+                mLinks.setText("");
+                mDesc.setText("");
+                mETC.setText("");
+                //  Toast.makeText(getMyActivityContext(),"postDataWorks",Toast.LENGTH_SHORT).show();
+                if(result.equals("success"))
+                    NavUtils.navigateUpFromSameTask(getMyActivityContext());
+            }
+        };
+        new SubmitAsyncTask(this, url, jsonObject, mycallback).execute();
+
     }
+    private Activity getMyActivityContext(){
+        return this;
+    }
+
 }

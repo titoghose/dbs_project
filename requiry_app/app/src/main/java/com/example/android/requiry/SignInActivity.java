@@ -13,13 +13,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class SignInActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mEnterUsername;
     private EditText mEnterPassword;
-    private ProgressBar mProgressBar;
     private Button mSignInButton;
     private Button mSignUpButton;
+    private JSONArray jArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validUsername() && validPassword()){
-                    Intent moveToProFeed = new Intent(SignInActivity.this, ProFeedActivity.class);
+                    Intent moveToProFeed = new Intent(SignInActivity.this, SignUpActivity.class);
                     startActivity(moveToProFeed);
                 }
                 else{
@@ -58,7 +61,7 @@ public class SignInActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveToSignUp = new Intent(SignInActivity.this, SignUpActivity.class);
+                Intent moveToSignUp = new Intent(SignInActivity.this, CreateProjectActivity.class);
                 startActivity(moveToSignUp);
             }
         });
@@ -66,7 +69,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private boolean validUsername() {
         final String email = String.valueOf(mEnterUsername.getText());
-
+        jArray = new JSONArray();
         return true;
     }
     private boolean validPassword() {
