@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validUsername() && validPassword()){
-                    Intent moveToProFeed = new Intent(SignInActivity.this, SignUpActivity.class);
+                    Intent moveToProFeed = new Intent(SignInActivity.this, ProFeedActivity.class);
                     startActivity(moveToProFeed);
                 }
                 else{
@@ -61,7 +61,7 @@ public class SignInActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent moveToSignUp = new Intent(SignInActivity.this, CreateProjectActivity.class);
+                Intent moveToSignUp = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(moveToSignUp);
             }
         });
