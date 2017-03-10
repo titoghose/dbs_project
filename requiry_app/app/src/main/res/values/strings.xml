@@ -21,4 +21,5 @@
     <string name="student">Student</string>
     <string name="faculty">Faculty</string>
     <string name="desc">Enter something about yourself...!!!</string>
+    <string name="user_email">Email</string>
 </resources>

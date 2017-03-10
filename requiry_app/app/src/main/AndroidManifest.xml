@@ -31,7 +31,9 @@
         <activity
             android:name=".ProFeedActivity"
             android:label="ProFeed" />
-        <activity android:name=".CreateProjectActivity"></activity>
+        <activity android:name=".CreateProjectActivity" />
+        <activity android:name=".ProjectActivity" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

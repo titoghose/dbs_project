@@ -52,6 +52,26 @@
             android:layout_height="wrap_content"
             android:hint="Enter your number" />
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/input_emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text = "Email"
+                android:text="@string/user_email"
+                android:textSize="18sp"
+                android:paddingRight="16dp"
+                android:textColor="#000000"/>
+            <EditText
+                android:id="@+id/input_emailEditText"
+                android:layout_width="match_parent"
+                android:inputType="textEmailAddress"
+                android:layout_height="wrap_content"
+                android:hint="Enter your EmailID" />
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -132,11 +152,11 @@
         android:scrollHorizontally="false"
         android:layout_marginBottom="20dp"/>
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:text="Register"
-        android:onClick="registerUser"
         android:background="@android:color/transparent"
         android:textColor="#e98000"
         android:textStyle="bold"/>

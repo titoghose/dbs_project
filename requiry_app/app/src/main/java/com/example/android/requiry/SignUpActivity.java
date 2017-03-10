@@ -1,12 +1,14 @@
 package com.example.android.requiry;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -18,35 +20,74 @@ public class SignUpActivity extends AppCompatActivity{
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
     private EditText mDescEditText;
-    private final String url = "http://192.168.43.19:5000/SignUp";//Add your Sign Up url here
+    private EditText mEmailEditText;
+    private Bundle myBundle;
+    private Button mRegisterButton;
+    private final String urlSignUp = "http://192.168.43.19:5000/SignUp";//Add your Sign Up url here
+    private final String urlEditProfile = "http://192.168.43.19:5000/EditProfile";//Add your Edit Profile url here
     private RadioGroup radioGroup;
+    private boolean flag;
     JSONObject jsonObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-
-
+        flag = false;
+        mRegisterButton = (Button) findViewById(R.id.registerButton);
         mNameEditText = (EditText) findViewById(R.id.input_nameEditText);
         mNumberEditText = (EditText) findViewById(R.id.input_numberEditText);
         mUsernameEditText = (EditText) findViewById(R.id.input_usernameEditText);
         mPasswordEditText = (EditText) findViewById(R.id.input_passwordEditText);
         mDescEditText = (EditText) findViewById(R.id.input_userdesc);
         radioGroup = (RadioGroup) findViewById(R.id.whoradiogroup);
+        mEmailEditText = (EditText) findViewById(R.id.input_emailEditText);
+        Intent intent = getIntent();
+        myBundle = intent.getExtras();
+        if(myBundle!=null){
+            mRegisterButton.setText("Save");
+            this.setTitle("Edit Profile");
+            mNameEditText.setText(myBundle.getString("uName"));
+            mNumberEditText.setText(myBundle.getString("uNumber"));
+            mUsernameEditText.setText(myBundle.getString("uUsername"));
+            mPasswordEditText.setText(myBundle.getString("uPassword"));
+            mDescEditText.setText(myBundle.getString("uDesc"));
+            int who = Integer.parseInt(myBundle.getString("uWho"));
+            if(who==1){
+                radioGroup.check(R.id.faculty_radiobutton);
+            }
+            else
+                radioGroup.check(R.id.student_radiobutton);
+            mEmailEditText.setText(myBundle.getString("uEmail"));
+            flag = true;
+        }
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag)
+                    registerUser(urlEditProfile);
+                else
+                    registerUser(urlSignUp);
+            }
+        });
+
     }
-    public void registerUser(View view){
+    public void registerUser(String url){
         Long number = null;
         String name = mNameEditText.getText().toString().trim();
         if(!TextUtils.isEmpty(mNumberEditText.getText().toString().trim()))
             number  = Long.parseLong(mNumberEditText.getText().toString());
-
+        String email = mEmailEditText.getText().toString().trim();
         String username = mUsernameEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
         String desc = mDescEditText.getText().toString().trim();
         if(TextUtils.isEmpty(name)){
             mNameEditText.requestFocus();
             mNameEditText.setError("This field is required");
+            return;
+        }
+        if(TextUtils.isEmpty(email)){
+            mEmailEditText.requestFocus();
+            mEmailEditText.setError("This field is required");
             return;
         }
         if(TextUtils.isEmpty(username)){
@@ -73,12 +114,13 @@ public class SignUpActivity extends AppCompatActivity{
             who=1;
         try {
             jsonObject = new JSONObject();
-            jsonObject.put("uname", name);
-            jsonObject.put("unumber", number);
-            jsonObject.put("uusername", username);
-            jsonObject.put("upassword", password);
-            jsonObject.put("uwho", who);
-            jsonObject.put("udesc", desc);
+            jsonObject.put("uName", name);
+            jsonObject.put("uNumber", number);
+            jsonObject.put("uEmail",email);
+            jsonObject.put("uUsername", username);
+            jsonObject.put("uPassword", password);
+            jsonObject.put("uWho", who);
+            jsonObject.put("uDesc", desc);
         }
         catch (Exception e){
             Log.e("SignUpActivity",""+e);
@@ -91,9 +133,14 @@ public class SignUpActivity extends AppCompatActivity{
                 mUsernameEditText.setText("");
                 mPasswordEditText.setText("");
                 mDescEditText.setText("");
-                //  Toast.makeText(getMyActivityContext(),"postDataWorks",Toast.LENGTH_SHORT).show();
-                if(result.equals("success"))
-                    NavUtils.navigateUpFromSameTask(getMyActivityContext());
+                mEmailEditText.setText("");
+                if(result.equals("success")) {
+                    if(myBundle!=null){
+                        finish();
+                    }
+                    else
+                        NavUtils.navigateUpFromSameTask(getMyActivityContext());
+                }
             }
         };
         new SubmitAsyncTask(this,url,jsonObject,mycallback).execute();
