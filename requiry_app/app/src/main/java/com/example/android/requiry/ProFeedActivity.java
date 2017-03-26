@@ -1,8 +1,10 @@
 package com.example.android.requiry;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -136,17 +138,21 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         int id  = item.getItemId();
         if(id == R.id.user_profile){
             Intent intent = new Intent(this,ProfileActivity.class);
+
+            SharedPreferences sp = getSharedPreferences("Profile", Context.MODE_PRIVATE);
+
             Bundle myBundle = new Bundle();
            //TODO Change this to get Actual Values
-            myBundle.putString("uName","Aayush Bhala");
-            myBundle.putString("uWho","0");
-            myBundle.putString("uNumber","9988776655");
-            myBundle.putString("uUsername","aayushbhala");
-            myBundle.putString("uEmail","aayushbhala@gmail.com");
-            myBundle.putString("uDesc","Student at MIT");
-            myBundle.putString("uPassword","iamaayush");
+            myBundle.putString("uName", sp.getString("uName",""));
+            myBundle.putString("uWho", sp.getString("uWho",""));
+            myBundle.putString("uNumber", "" + sp.getLong("uNumber",0));
+            myBundle.putString("uUsername",sp.getString("uUsername",""));
+            myBundle.putString("uEmail",sp.getString("uEmail",""));
+            myBundle.putString("uDesc",sp.getString("uDesc",""));
+            myBundle.putString("uPassword",sp.getString("uPassword",""));
             intent.putExtras(myBundle);
             startActivity(intent);
+
         }
         return true;
     }
