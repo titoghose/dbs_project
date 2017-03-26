@@ -3,6 +3,7 @@ package com.example.android.requiry;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
         this.jsonObject = jsonObject;
         myCallback = mycallback;
     }
+
 
     private URL createUrl(String stringurl) {
         URL url = null;
