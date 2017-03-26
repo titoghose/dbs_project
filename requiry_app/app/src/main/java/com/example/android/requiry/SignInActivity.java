@@ -2,9 +2,11 @@ package com.example.android.requiry;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -26,6 +28,15 @@ public class SignInActivity extends AppCompatActivity {
     private Button mSignUpButton;
     private JSONArray jArray;
     private boolean valid;
+
+    private int uId;
+    private String uName;
+    private long uNumber;
+    private String uEmail;
+    private String uUsername;
+    private String uPassword;
+    private int uWho;
+    private String uDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +77,31 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void postData(String result) {
 
+                        if(result.equals("Failed"))
+                            Toast.makeText(SignInActivity.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
+                        else{
+                            try {
+                                JSONArray jsonArray = new JSONArray(result);
+                                JSONObject obj = jsonArray.getJSONObject(0);
+                                uId = obj.getInt("uID");
+                                uName = obj.getString("uName");
+                                uNumber = obj.getLong("uNumber");
+                                uEmail = obj.getString("uEmail");
+                                uUsername = obj.getString("uUsername");
+                                uPassword = obj.getString("uPassword");
+                                uWho = obj.getInt("uWho");
+                                uDesc = obj.getString("uDesc");
+                                Log.e("SignIn", uName);
+                                Toast.makeText(SignInActivity.this, uName, Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e("fh", result);
+                            }
+                        }
                     }
                 };
                 String url = "http://192.168.43.19:5000/SignIn";
                 new SubmitAsyncTask(SignInActivity.this, url, obj, mycallback).execute();
-
-
-
-                if (validPassword()) {
-                    Intent moveToProFeed = new Intent(SignInActivity.this, ProFeedActivity.class);
-                    startActivity(moveToProFeed);
-
-
-                } else {
-                    Toast.makeText(SignInActivity.this, "Incorrect Username or Password", Toast.LENGTH_SHORT).show();
-                }
 
             }
         });
@@ -94,12 +115,4 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validUsername() {
-        return true;
-    }
-
-    private boolean validPassword() {
-
-        return true;
-    }
 }

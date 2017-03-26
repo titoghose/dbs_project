@@ -85,7 +85,6 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
                 while ((line = in.readLine()) != null) {
 
                     sb.append(line);
-                    break;
                 }
 
                 in.close();
@@ -101,8 +100,6 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
     }
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result,
-                Toast.LENGTH_LONG).show();
         myCallback.postData(result);
     }
     public interface InformComplete{
