@@ -46,8 +46,11 @@ public class DiscussionsAdapter extends ArrayAdapter<Discussions>{
         final TextView tv1 = (TextView) row.findViewById(R.id.username);
         tv1.setText(currentItem.getUsername());
 
-        final TextView tv2 = (TextView) row.findViewById(R.id.message);
-        tv2.setText(currentItem.getMessage());
+        final TextView tv2 = (TextView) row.findViewById(R.id.date);
+        tv2.setText(currentItem.getDate());
+
+        final TextView tv3 = (TextView) row.findViewById(R.id.message);
+        tv3.setText(currentItem.getMessage());
 
         return row;
     }

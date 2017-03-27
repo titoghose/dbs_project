@@ -66,6 +66,7 @@ public class ProjectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent discussion = new Intent(ProjectActivity.this, DiscussionActivity.class).putExtras(dataFromProFeed);
+                discussion.putExtra("pName", mName.getText().toString().trim());
                 startActivity(discussion);
             }
         });

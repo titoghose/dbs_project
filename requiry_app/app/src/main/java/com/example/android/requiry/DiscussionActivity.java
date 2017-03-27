@@ -3,22 +3,29 @@ package com.example.android.requiry;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.android.requiry.R.id.pName_editText;
 import static com.example.android.requiry.R.id.username;
 
 public class DiscussionActivity extends AppCompatActivity {
@@ -27,6 +34,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private Button postBtn;
     private EditText message;
 
+    private String pName;
     private int pId;
     private int uId;
 
@@ -40,6 +48,18 @@ public class DiscussionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion);
+
+        Intent intent = getIntent();
+        pName = intent.getStringExtra("pName");
+
+        ActionBar actionBar = getSupportActionBar();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.action_bar, null);
+        TextView actionbar_title = (TextView)v.findViewById(R.id.action_bar_title);
+        actionbar_title.setText(pName);
+        assert actionBar != null;
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(v);
 
         mAdapter = new DiscussionsAdapter(this, R.layout.discussions_message);
         ListView listViewToDo = (ListView) findViewById(R.id.msgview);
@@ -93,6 +113,25 @@ public class DiscussionActivity extends AppCompatActivity {
 
                 try {
                     JSONArray jsonArray = new JSONArray(result);
+                    for(int i = 0; i<jsonArray.length(); i++){
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        String uName = obj.getString("uName");
+                        String msg = obj.getString("msg");
+                        String time_stamp = obj.getString("sTime");
+                        SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,YYYY");
+                        String s_date = null;
+                        try {
+                            Date st_date = date.parse(time_stamp);
+                            // Log.e("ProFeed","start date:"+st_date);
+                            // Log.e("ProFeed","end date:"+ed_date);
+                            s_date = simpleDateFormat.format(st_date);
+                        } catch (Exception e) {
+                            Log.e("Pro Feed", "Parsing failed miserably " + e);
+                        }
+
+                        mAdapter.add(new Discussions(pName, uName, msg, s_date));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -109,7 +148,7 @@ public class DiscussionActivity extends AppCompatActivity {
         JSONObject obj = new JSONObject();
         try {
             obj.put("uId", ""+uId);
-            obj.put("uMessage", msg);
+            obj.put("msg", msg);
             obj.put("uProjectId", ""+pId);
         } catch (JSONException e) {
             e.printStackTrace();
