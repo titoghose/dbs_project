@@ -64,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
             Intent nextScreen = new Intent(SignInActivity.this, ProFeedActivity.class);
             startActivity(nextScreen);
         }
-
+        
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -138,13 +138,13 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         int id  = item.getItemId();
         if(id == R.id.user_profile){
             Intent intent = new Intent(this,ProfileActivity.class);
-
-            SharedPreferences sp = getSharedPreferences("Profile", Context.MODE_PRIVATE);
+            SharedPreferences sp = getSharedPreferences("User", Context.MODE_PRIVATE);
 
             Bundle myBundle = new Bundle();
-           //TODO Change this to get Actual Values
-            myBundle.putString("uName", sp.getString("uName",""));
-            myBundle.putString("uWho", sp.getString("uWho",""));
+            //TODO Change this to get Actual Values
+            myBundle.putString("identifier","loggedInUser");
+            myBundle.putString("uName", sp.getString("uName"," "));
+            myBundle.putString("uWho", ""+sp.getInt("uWho",0));
             myBundle.putString("uNumber", "" + sp.getLong("uNumber",0));
             myBundle.putString("uUsername",sp.getString("uUsername",""));
             myBundle.putString("uEmail",sp.getString("uEmail",""));

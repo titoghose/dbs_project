@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+    <TextView
+        android:id="@+id/circle_text_view"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/magnitude_circle"
+        android:layout_gravity="center_vertical|start"
+        android:fontFamily="monospace"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
+        tools:text="A" />
+
+    <TextView
+        android:id="@+id/contributor_name_text_view"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="monospace"
+        android:textColor="#000"
+        tools:text="Aayush Bhala" />
+</LinearLayout>

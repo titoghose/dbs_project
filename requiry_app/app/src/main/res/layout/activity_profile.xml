@@ -149,6 +149,15 @@
                         android:background="#fff"
                         tools:text="9988776655"/>
                 </LinearLayout>
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:text="Delete"
+                    android:background="@android:color/transparent"
+                    android:textColor="#e98000"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
         </RelativeLayout>
