@@ -162,6 +162,7 @@ public class DiscussionActivity extends AppCompatActivity {
         };
         String url = "http://192.168.43.19:5000/Discussions";
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
+        refreshItemsFromTable();
 
     }
 }

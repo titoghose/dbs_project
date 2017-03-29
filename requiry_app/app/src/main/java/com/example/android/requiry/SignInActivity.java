@@ -60,6 +60,12 @@ public class SignInActivity extends AppCompatActivity {
         mSignInButton = (Button) findViewById(R.id.signIn_button);
         mSignUpButton = (Button) findViewById(R.id.signUp_button);
 
+        SharedPreferences sp = getSharedPreferences("User", MODE_PRIVATE);
+        if(sp.getString("uUsername","").length() != 0){
+            Intent nextScreen = new Intent(SignInActivity.this, ProFeedActivity.class);
+            startActivity(nextScreen);
+        }
+
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
