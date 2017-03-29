@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -100,7 +101,7 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
                 String pname = obj.getString("pName");
                 String created_by = obj.getString("pCreated_By");
                 String  domain = obj.getString("pDomain");
-                SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+                SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,YYYY");
                 String start_date = null;
                 String end_date = null;
@@ -153,6 +154,13 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
             intent.putExtras(myBundle);
             startActivity(intent);
 
+        }
+        else if(id == R.id.user_logout){
+            SharedPreferences.Editor editor = getSharedPreferences("User",MODE_PRIVATE).edit();
+            editor.clear(); //clear all stored data
+            editor.apply();
+            Intent intent = new Intent(ProFeedActivity.this,SignInActivity.class);
+            NavUtils.navigateUpTo(ProFeedActivity.this,intent);
         }
         return true;
     }

@@ -1,10 +1,13 @@
 package com.example.android.requiry;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -44,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         if(user_Identity.equals("notloggedInUser")) {
             mEditProfileImageButton.setVisibility(View.INVISIBLE);
             mDeleteButton.setVisibility(View.INVISIBLE);
+            invalidateOptionsMenu();
         }
         else {
             mEditProfileImageButton.setVisibility(View.VISIBLE);
@@ -96,5 +100,31 @@ public class ProfileActivity extends AppCompatActivity {
                 new SubmitAsyncTask(ProfileActivity.this,url,jsonObject,myCallback).execute();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_activity_menu,menu);
+        MenuItem item;
+        if(user_Identity.equals("notloggedInUser")){
+            item = menu.findItem(R.id.user_logout).setVisible(false);
+        }
+        else{
+            item = menu.findItem(R.id.user_logout).setVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.user_logout){
+            SharedPreferences.Editor editor = getSharedPreferences("User",MODE_PRIVATE).edit();
+            editor.clear(); //clear all stored data
+            editor.apply();
+            Intent intent = new Intent(ProfileActivity.this,SignInActivity.class);
+            NavUtils.navigateUpTo(ProfileActivity.this,intent);
+        }
+        return true;
     }
 }
