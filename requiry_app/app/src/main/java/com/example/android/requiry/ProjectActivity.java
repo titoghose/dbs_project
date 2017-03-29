@@ -1,21 +1,15 @@
 package com.example.android.requiry;
 
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
-
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class ProjectActivity extends AppCompatActivity {
 
@@ -27,6 +21,7 @@ public class ProjectActivity extends AppCompatActivity {
     private TextView mLinks;
     private TextView mStarted;
     private TextView mETC;
+
 
 
     @Override
@@ -43,7 +38,7 @@ public class ProjectActivity extends AppCompatActivity {
         mETC = (TextView) findViewById(R.id.pETC_textView);
 
         final Bundle dataFromProFeed = getIntent().getExtras();
-        pId = dataFromProFeed.getString("pId");
+        pId = dataFromProFeed.getString("pID");
         mName.setText(dataFromProFeed.getString("pName"));
         mCreator.setText(dataFromProFeed.getString("pCreator"));
         mDomain.setText(dataFromProFeed.getString("pDomain"));
@@ -55,10 +50,14 @@ public class ProjectActivity extends AppCompatActivity {
         Button mApply = (Button) findViewById(R.id.apply_button);
         Button mDiscussion = (Button) findViewById(R.id.discuss_button);
 
+
         mApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //TODO Change this to Apply Button
+                Log.e("ProjectActivity",""+pId);
+                Intent  intent = new Intent(ProjectActivity.this,ContributionActivity.class).putExtra("pID",pId);
+                startActivity(intent);
             }
         });
 
@@ -79,4 +78,5 @@ public class ProjectActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
     }
+
 }

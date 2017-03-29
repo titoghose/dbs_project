@@ -3,7 +3,6 @@ package com.example.android.requiry;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -83,7 +82,6 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
                 while ((line = in.readLine()) != null) {
 
                     sb.append(line);
-                    break;
                 }
 
                 in.close();
@@ -99,8 +97,8 @@ public class SubmitAsyncTask extends AsyncTask<String, Void, String> {
     }
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result,
-                Toast.LENGTH_LONG).show();
+       // Toast.makeText(context, result,
+       //         Toast.LENGTH_LONG).show();
         myCallback.postData(result);
     }
     public interface InformComplete{
