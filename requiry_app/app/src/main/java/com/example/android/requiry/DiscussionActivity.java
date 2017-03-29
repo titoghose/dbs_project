@@ -99,6 +99,8 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private void refreshItemsFromTable() {
 
+        mAdapter.clear();
+
         JSONObject obj = new JSONObject();
         try {
             obj.put("uProjectId", ""+pId);

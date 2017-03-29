@@ -5,6 +5,7 @@ from flask import request
 from flask import Flask
 from flaskext.mysql import MySQL
 from flask import jsonify
+
 mysql = MySQL()
 
 # MySQL configurations
@@ -14,7 +15,9 @@ app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'aayush'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
-@app.route('/SignIn',methods = ['POST'])
+
+
+@app.route('/SignIn', methods=['POST'])
 def signin():
     if request.method == 'POST':
         content = request.get_json()
@@ -23,28 +26,31 @@ def signin():
         password = content["uPassword"]
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT uID,uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc FROM requiry_user WHERE uUsername = '"+username+"' and uPassword = '"+password+"';")
+        cursor.execute(
+            "SELECT uID,uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc FROM requiry_user WHERE uUsername = '" + username + "' and uPassword = '" + password + "';")
         data = cursor.fetchall()
         cursor.close()
         print(data)
         values = []
-        if len(data)!=0:
+        if len(data) != 0:
             values.append({
-            "uID":data[0][0],
-            "uName": data[0][1],
-            "uNumber": data[0][2],
-            "uEmail": data[0][3],
-            "uUsername":data[0][4],
-            "uPassword":data[0][5],
-            "uWho":data[0][6],
-            "uDesc":data[0][7]
+                "uID": data[0][0],
+                "uName": data[0][1],
+                "uNumber": data[0][2],
+                "uEmail": data[0][3],
+                "uUsername": data[0][4],
+                "uPassword": data[0][5],
+                "uWho": data[0][6],
+                "uDesc": data[0][7]
             })
             return jsonify(values)
 
         return "Failed"
     else:
         return "Failed"
-@app.route('/Discussions',methods = ['POST'])
+
+
+@app.route('/Discussions', methods=['POST'])
 def discussion():
     if request.method == 'POST':
         content = request.get_json()
@@ -54,20 +60,23 @@ def discussion():
         pID = content["uProjectId"]
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO discussion(uID,pID,msg) VALUES(%s,%s,%s);",(uID,pID,msg))
+        cursor.execute("INSERT INTO discussion(uID,pID,msg) VALUES(%s,%s,%s);", (uID, pID, msg))
         conn.commit()
         cursor.close()
         return "success"
     else:
         return "Failed"
-@app.route('/DiscussionsQuery',methods = ['POST'])
+
+
+@app.route('/DiscussionsQuery', methods=['POST'])
 def discussionquery():
     if request.method == 'POST':
         content = request.get_json()
         pID = content["uProjectId"]
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT uUsername,msg,sTime FROM discussion d,requiry_user u WHERE d.uID = u.uID AND d.pID = %s;",(pID))
+        cursor.execute(
+            "SELECT uUsername,msg,sTime FROM discussion d,requiry_user u WHERE d.uID = u.uID AND d.pID = %s;", (pID))
         data = cursor.fetchall()
         i = cursor.rowcount
         jsonstr = []
@@ -82,34 +91,40 @@ def discussionquery():
         return jsonify(jsonstr)
     else:
         return "error"
-@app.route('/DeleteUser',methods = ['POST'])
+
+
+@app.route('/DeleteUser', methods=['POST'])
 def deleteuser():
     if request.method == 'POST':
         content = request.get_json()
         username = content["uUsername"]
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM requiry_user WHERE uUSername = %s;",(username))
+        cursor.execute("DELETE FROM requiry_user WHERE uUSername = %s;", (username))
         cursor.close()
         return "success"
     else:
         return "Failed"
-@app.route('/SignUp',methods = ['POST'])
+
+
+@app.route('/SignUp', methods=['POST'])
 def signup():
     error = None
     if request.method == 'POST':
         content = request.get_json()
         print(content)
         name = content['uName']
-        number  = content['uNumber']
+        number = content['uNumber']
         email = content['uEmail']
-        username =content['uUsername']
+        username = content['uUsername']
         password = content['uPassword']
         who = content['uWho']
         desc = content['uDesc']
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO requiry_user(uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc) VALUES(%s,%s,%s,%s,%s,%s,%s);",(name,number,email,username,password,who,desc))
+        cursor.execute(
+            "INSERT INTO requiry_user(uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc) VALUES(%s,%s,%s,%s,%s,%s,%s);",
+            (name, number, email, username, password, who, desc))
         conn.commit()
         cursor.close()
     else:
@@ -118,7 +133,9 @@ def signup():
         return "success"
     else:
         return "Failed"
-@app.route('/EditProfile',methods = ['POST'])
+
+
+@app.route('/EditProfile', methods=['POST'])
 def editprofile():
     error = None
     if request.method == 'POST':
@@ -133,7 +150,9 @@ def editprofile():
         desc = content['uDesc']
         conn = mysql.connect()
         cursor = conn.cursor()
-        cursor.execute("UPDATE requiry_user SET uName = %s,uNumber = %s,uEmail = %s,uPassword = %s,uWho = %s,uDesc = %s WHERE uUsername = %s;",(name,number,email,password,who,desc,username))
+        cursor.execute(
+            "UPDATE requiry_user SET uName = %s,uNumber = %s,uEmail = %s,uPassword = %s,uWho = %s,uDesc = %s WHERE uUsername = %s;",
+            (name, number, email, password, who, desc, username))
         conn.commit()
         cursor.close()
     else:
@@ -142,9 +161,11 @@ def editprofile():
         return "success"
     else:
         return "Failed"
-@app.route('/ProFeed',methods = ['GET'])
+
+
+@app.route('/ProFeed', methods=['GET'])
 def profeed():
-    if request.method=='GET':
+    if request.method == 'GET':
         conn = mysql.connect()
         cursor = conn.cursor()
         query = "SELECT pID,pName,uName AS pCreated_By,pDomain,pDesc,pDateStarts,pDateEnds FROM projects p,requiry_user u WHERE p.uID=u.uID ;"
@@ -154,20 +175,22 @@ def profeed():
         jsonstr = []
         for j in range(0, i, 1):
             datastr = {
-                "pID":data[j][0],
+                "pID": data[j][0],
                 "pName": data[j][1],
                 "pCreated_By": data[j][2],
                 "pDomain": data[j][3],
-                "pDesc":data[j][4],
-                "pDateStarts":data[j][5],
-                "pDateEnds":data[j][6]
+                "pDesc": data[j][4],
+                "pDateStarts": data[j][5],
+                "pDateEnds": data[j][6]
             }
             jsonstr.append(datastr)
         cursor.close()
         return jsonify(jsonstr)
     else:
         return "{ error_occured:1 }"
-@app.route('/Contributor',methods = ['POST'])
+
+
+@app.route('/Contributor', methods=['POST'])
 def contribution():
     if request.method == 'POST':
         conn = mysql.connect()
@@ -175,7 +198,9 @@ def contribution():
         data = request.get_json()
         print(data)
         pid = data["pID"]
-        cursor.execute("SELECT u.uID,uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc FROM requiry_user u,contribution c WHERE c.uID = u.uID AND pID = %s ",(pid))
+        cursor.execute(
+            "SELECT u.uID,uName,uNumber,uEmail,uUsername,uPassword,uWho,uDesc FROM requiry_user u,contribution c WHERE c.uID = u.uID AND pID = %s ",
+            (pid))
         res = cursor.fetchall()
         i = cursor.rowcount
         values = []
@@ -184,13 +209,28 @@ def contribution():
                 "uID": res[j][0],
                 "uName": res[j][1],
                 "uNumber": res[j][2],
-                "uEmail":res[j][3],
+                "uEmail": res[j][3],
                 "uUsername": res[j][4],
                 "uPassword": res[j][5],
                 "uWho": res[j][6],
                 "uDesc": res[j][7]})
         cursor.close()
         return jsonify(values)
+
+
+@app.route('/DeleteProject', methods=['POST'])
+def deleteproject():
+    if request.method == 'POST':
+        content = request.get_json()
+        pid = content["pID"]
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM projects WHERE pID = %s;", pid)
+        cursor.close()
+        return "success"
+    else:
+        return "Failed"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
