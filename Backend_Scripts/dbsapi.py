@@ -232,5 +232,31 @@ def deleteproject():
         return "Failed"
 
 
+@app.route('/CreateProject', methods=['POST'])
+def signup():
+    error = None
+    if request.method == 'POST':
+        content = request.get_json()
+        print(content)
+        name = content['pName']
+        created_by = content['pCreated_by']
+        domain = content['pDomain']
+        desc = content['pDesc']
+        date_ends = content['pDateEnds']
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO requiry_user(pName, pCreated_by, pDomain, pDesc, pDateEnds) VALUES(%s, %s, %s, %s, %s);",
+            (name, created_by, domain, desc, date_ends))
+        conn.commit()
+        cursor.close()
+    else:
+        error = 'Error occured'
+    if error is None:
+        return "success"
+    else:
+        return "Failed"
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

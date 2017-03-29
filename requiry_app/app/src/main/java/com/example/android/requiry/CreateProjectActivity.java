@@ -2,6 +2,7 @@ package com.example.android.requiry;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +30,9 @@ public class CreateProjectActivity extends AppCompatActivity {
     private AutoCompleteTextView mDesc;
     private EditText mETC;
 
-    private final String url = "http://192.168.43.19:5000/CreateProject";
     JSONObject jsonObject;
+
+    private String uName;
 
     public CreateProjectActivity() {
     }
@@ -48,6 +50,9 @@ public class CreateProjectActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
+
+        SharedPreferences sp = getSharedPreferences("User", MODE_PRIVATE);
+        uName = sp.getString("uName","");
 
         mName = (AutoCompleteTextView) findViewById(R.id.pName_editText);
         mDomain = (AutoCompleteTextView) findViewById(R.id.pDomain_editText);
@@ -98,6 +103,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         try {
             jsonObject = new JSONObject();
             jsonObject.put("pName", name);
+            jsonObject.put("pCreated_by", uName);
             jsonObject.put("pDomain", domain);
             jsonObject.put("pLinks", links);
             jsonObject.put("pDesc", desc);
@@ -110,21 +116,24 @@ public class CreateProjectActivity extends AppCompatActivity {
         SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
             @Override
             public void postData(String result) {
-                mName.setText("");
-                mDomain.setText("");
-                mLinks.setText("");
-                mDesc.setText("");
-                mETC.setText("");
                 //  Toast.makeText(getMyActivityContext(),"postDataWorks",Toast.LENGTH_SHORT).show();
-                if(result.equals("success"))
-                    NavUtils.navigateUpFromSameTask(getMyActivityContext());
+                if(result.equals("success")){
+                    mName.setText("");
+                    mDomain.setText("");
+                    mLinks.setText("");
+                    mDesc.setText("");
+                    mETC.setText("");
+                    Toast.makeText(CreateProjectActivity.this, "Project Created", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CreateProjectActivity.this, ProFeedActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    NavUtils.navigateUpFromSameTask(CreateProjectActivity.this);
+                }
             }
         };
-        new SubmitAsyncTask(this, url, jsonObject, mycallback).execute();
-
-    }
-    private Activity getMyActivityContext(){
-        return this;
+        String url = "http://192.168.43.19:5000/CreateProject";
+        new SubmitAsyncTask(CreateProjectActivity.this, url, jsonObject, mycallback).execute();
     }
 
 }

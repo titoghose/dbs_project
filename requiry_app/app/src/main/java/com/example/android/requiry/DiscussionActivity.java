@@ -77,10 +77,21 @@ public class DiscussionActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        stopTimer();
+        finish();
+    }
+
     public void startTimer(){
         timer = new Timer();
         initializeTimerTask();
         timer.schedule(timerTask, 100, 3000);
+    }
+
+    public void stopTimer(){
+        timer.cancel();
     }
 
     public void initializeTimerTask() {
