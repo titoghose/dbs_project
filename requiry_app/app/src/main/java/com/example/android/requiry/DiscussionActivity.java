@@ -1,12 +1,11 @@
 package com.example.android.requiry;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,9 +23,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.example.android.requiry.R.id.pName_editText;
-import static com.example.android.requiry.R.id.username;
-
 public class DiscussionActivity extends AppCompatActivity {
 
     private DiscussionsAdapter mAdapter;
@@ -35,7 +30,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private EditText message;
 
     private String pName;
-    private int pId;
+    private String pId;
     private int uId;
 
     private Timer timer;
@@ -50,7 +45,11 @@ public class DiscussionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_discussion);
 
         Intent intent = getIntent();
-        pName = intent.getStringExtra("pName");
+        Bundle bundle = intent.getExtras();
+        pName = bundle.getString("pName");
+        pId = bundle.getString("pID");
+        SharedPreferences sp = getSharedPreferences("User",MODE_PRIVATE);
+        uId = sp.getInt("uID",0);
 
         ActionBar actionBar = getSupportActionBar();
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -138,7 +137,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
             }
         };
-        String url = "http://192.168.43.19:5000/Discussions";
+        String url = "http://192.168.43.19:5000/DiscussionsQuery";
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
     }
 
@@ -160,6 +159,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
             }
         };
+        message.setText("");
         String url = "http://192.168.43.19:5000/Discussions";
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
         refreshItemsFromTable();

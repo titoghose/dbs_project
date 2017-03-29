@@ -25,6 +25,7 @@
             android:text="Date"
             android:inputType="datetime"
             android:textAlignment="viewEnd"
+            android:textSize="15sp"
             android:layout_weight="1" />
 
     </LinearLayout>
