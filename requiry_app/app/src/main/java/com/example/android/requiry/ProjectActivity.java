@@ -52,7 +52,7 @@ public class ProjectActivity extends AppCompatActivity {
         mCreator.setText(dataFromProFeed.getString("pCreator"));
         mDomain.setText(dataFromProFeed.getString("pDomain"));
         mDesc.setText(dataFromProFeed.getString("pDesc"));
-        mLinks.setText(dataFromProFeed.getString("pLinks"));
+        mLinks.setText(dataFromProFeed.getString("pLink"));
         mStarted.setText(dataFromProFeed.getString("pDateStarts"));
         mETC.setText(dataFromProFeed.getString("pDateEnds"));
 

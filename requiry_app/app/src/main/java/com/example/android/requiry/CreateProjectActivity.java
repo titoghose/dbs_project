@@ -1,14 +1,11 @@
 package com.example.android.requiry;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +28,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
     JSONObject jsonObject;
 
-    private String uName;
+    private int uID;
 
     public CreateProjectActivity() {
     }
@@ -52,7 +48,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         actionBar.setCustomView(v);
 
         SharedPreferences sp = getSharedPreferences("User", MODE_PRIVATE);
-        uName = sp.getString("uName","");
+        uID = sp.getInt("uID",0);
 
         mName = (AutoCompleteTextView) findViewById(R.id.pName_editText);
         mDomain = (AutoCompleteTextView) findViewById(R.id.pDomain_editText);
@@ -103,9 +99,9 @@ public class CreateProjectActivity extends AppCompatActivity {
         try {
             jsonObject = new JSONObject();
             jsonObject.put("pName", name);
-            jsonObject.put("pCreated_by", uName);
+            jsonObject.put("pCreated_by", uID);
             jsonObject.put("pDomain", domain);
-            jsonObject.put("pLinks", links);
+            jsonObject.put("pLink", links);
             jsonObject.put("pDesc", desc);
             jsonObject.put("pETC", etc);
         }

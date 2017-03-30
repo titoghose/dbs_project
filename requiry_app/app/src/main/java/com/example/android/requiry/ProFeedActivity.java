@@ -64,6 +64,7 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         extras.putString("pDateStarts",curProFeedData.getStart_date());
         extras.putString("pDateEnds",curProFeedData.getEnd_date());
         extras.putString("pDomain",curProFeedData.getDomain());
+        extras.putString("pLink",curProFeedData.getpLink());
         Intent intent = new Intent(this,ProjectActivity.class).putExtras(extras);
         startActivity(intent);
     }
@@ -89,7 +90,7 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         if(TextUtils.isEmpty(SAMPLE_JSON_RESPONSE))
             return null;
         ArrayList<ProFeedData> dbdatas = new ArrayList<>();
-
+       // Log.e("ProFeed",SAMPLE_JSON_RESPONSE);
 
         try {
 
@@ -116,7 +117,8 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
                     Log.e("Pro Feed","Parsing failed miserably "+e);
                 }
                 String pDesc = obj.getString("pDesc");
-                dbdatas.add(new ProFeedData(pid,pname,created_by,domain,start_date,end_date,pDesc));
+                String pLink = obj.getString("pLink");
+                dbdatas.add(new ProFeedData(pid,pname,created_by,domain,start_date,end_date,pDesc,pLink));
             }
 
         } catch (JSONException e) {
@@ -165,4 +167,3 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         return true;
     }
 }
-

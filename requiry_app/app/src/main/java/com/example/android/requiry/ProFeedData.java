@@ -11,7 +11,8 @@ public class ProFeedData {
     private String project_desc;
     private String start_date;
     private String end_date;
-    public ProFeedData(int id,String prjname,String creator,String dom,String stdate,String edate,String prjdesc){
+    private String pLink;
+    public ProFeedData(int id,String prjname,String creator,String dom,String stdate,String edate,String prjdesc,String link){
         pID = id;
         pname = prjname;
         created_by = creator;
@@ -19,6 +20,7 @@ public class ProFeedData {
         start_date = stdate;
         end_date = edate;
         domain = dom;
+        pLink = link;
     }
     public int getpID(){ return pID; }
     public String getPname(){
@@ -39,4 +41,5 @@ public class ProFeedData {
     public String getProject_desc(){
         return project_desc;
     }
+    public String getpLink() { return pLink; }
 }

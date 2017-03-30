@@ -168,7 +168,7 @@ def profeed():
     if request.method == 'GET':
         conn = mysql.connect()
         cursor = conn.cursor()
-        query = "SELECT pID,pName,uName AS pCreated_By,pDomain,pDesc,pDateStarts,pDateEnds FROM projects p,requiry_user u WHERE p.uID=u.uID ;"
+        query = "SELECT pID,pName,uName AS pCreated_By,pDomain,pDesc,pDateStarts,pDateEnds,pLink FROM projects p,requiry_user u WHERE p.uID=u.uID ;"
         cursor.execute(query)
         data = cursor.fetchall()
         i = cursor.rowcount
@@ -181,7 +181,8 @@ def profeed():
                 "pDomain": data[j][3],
                 "pDesc": data[j][4],
                 "pDateStarts": data[j][5],
-                "pDateEnds": data[j][6]
+                "pDateEnds": data[j][6],
+                "pLink":data[j][7]
             }
             jsonstr.append(datastr)
         cursor.close()
@@ -233,7 +234,7 @@ def deleteproject():
 
 
 @app.route('/CreateProject', methods=['POST'])
-def signup():
+def createproject():
     error = None
     if request.method == 'POST':
         content = request.get_json()
@@ -242,12 +243,13 @@ def signup():
         created_by = content['pCreated_by']
         domain = content['pDomain']
         desc = content['pDesc']
-        date_ends = content['pDateEnds']
+        date_ends = content['pETC']
+        pLink = content['pLink']
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO requiry_user(pName, pCreated_by, pDomain, pDesc, pDateEnds) VALUES(%s, %s, %s, %s, %s);",
-            (name, created_by, domain, desc, date_ends))
+            "INSERT INTO projects(pName, uID, pDomain, pDesc, pDateEnds, pLink) VALUES(%s, %s, %s, %s, %s, %s);",
+            (name, created_by, domain, desc, date_ends,pLink))
         conn.commit()
         cursor.close()
     else:
