@@ -131,7 +131,7 @@ public class DiscussionActivity extends AppCompatActivity {
                         String msg = obj.getString("msg");
                         String time_stamp = obj.getString("sTime");
                         SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,YYYY");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,yyyy");
                         String s_date = null;
                         try {
                             Date st_date = date.parse(time_stamp);
