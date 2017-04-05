@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,6 +36,8 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private Timer timer;
     private TimerTask timerTask;
+    private  ListView listViewToDo;
+    private ArrayList<Discussions> arrayList;
 
     final Handler handler = new Handler();
 
@@ -60,8 +63,9 @@ public class DiscussionActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
 
+        arrayList = new ArrayList<>();
         mAdapter = new DiscussionsAdapter(this, R.layout.discussions_message);
-        ListView listViewToDo = (ListView) findViewById(R.id.msgview);
+        listViewToDo = (ListView) findViewById(R.id.msgview);
         listViewToDo.setAdapter(mAdapter);
 
         message = (EditText) findViewById(R.id.msg);
@@ -110,20 +114,19 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private void refreshItemsFromTable() {
 
-        mAdapter.clear();
-
-        JSONObject obj = new JSONObject();
+        final JSONObject obj = new JSONObject();
         try {
             obj.put("uProjectId", ""+pId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
+
+        final SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
             @Override
             public void postData(String result) {
-
                 try {
+                    arrayList.clear();
                     JSONArray jsonArray = new JSONArray(result);
                     for(int i = 0; i<jsonArray.length(); i++){
                         JSONObject obj = jsonArray.getJSONObject(i);
@@ -141,9 +144,13 @@ public class DiscussionActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("Pro Feed", "Parsing failed miserably " + e);
                         }
-
-                        mAdapter.add(new Discussions(pName, uName, msg, s_date));
+                        arrayList.add(new Discussions(pName, uName, msg, s_date));
+                        //mAdapter.add(new Discussions(pName, uName, msg, s_date));
                     }
+                    mAdapter.setNotifyOnChange(false);
+                    mAdapter.clear();
+                    mAdapter.addAll(arrayList);
+                    mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,6 +160,7 @@ public class DiscussionActivity extends AppCompatActivity {
         String url = "http://192.168.43.19:5000/DiscussionsQuery";
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
     }
+
 
     private void sendMessage() {
         String msg = message.getText().toString().trim();
