@@ -166,4 +166,9 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

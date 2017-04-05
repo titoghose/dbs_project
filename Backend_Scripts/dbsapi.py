@@ -76,7 +76,7 @@ def discussionquery():
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT uUsername,msg,sTime FROM discussion d,requiry_user u WHERE d.uID = u.uID AND d.pID = %s;", (pID))
+            "SELECT uUsername,msg,sTime FROM discussion d,requiry_user u WHERE d.uID = u.uID AND d.pID = %s ORDER BY sTime;", (pID))
         data = cursor.fetchall()
         i = cursor.rowcount
         jsonstr = []
