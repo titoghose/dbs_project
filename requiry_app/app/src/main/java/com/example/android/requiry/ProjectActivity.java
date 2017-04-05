@@ -4,6 +4,7 @@ package com.example.android.requiry;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProjectActivity extends AppCompatActivity {
 
@@ -27,8 +32,7 @@ public class ProjectActivity extends AppCompatActivity {
     private TextView mLinks;
     private TextView mStarted;
     private TextView mETC;
-
-
+    private String emailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class ProjectActivity extends AppCompatActivity {
             mApply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //sendEmail();
+                    sendEmail();
                 }
             });
         }
@@ -128,19 +132,21 @@ public class ProjectActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     protected void sendEmail() {
+        getEmailDetails();
+
         Log.i("Send email", "");
         String[] TO = {emailId};
         String[] CC = {""};
-        String sample="Dear "+authorName+",\n\n(Your email goes here)\n\n(Please upload your CV and Cover Letter as attachments)\n\nsent via Requiry";
+        String sample="Dear "+mCreator+",\n\n(Your email goes here)\n\n(Please upload your CV and Cover Letter as attachments)\n\nsent via Requiry";
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Application For : "+projectName);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Application For : "+ mName);
         emailIntent.putExtra(Intent.EXTRA_TEXT, sample);
 
         try {
@@ -149,8 +155,33 @@ public class ProjectActivity extends AppCompatActivity {
             Log.i("Email Sent", "");
         }
         catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(ProjectsActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProjectActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
-    */
+
+    public void getEmailDetails() {
+
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("pID", ""+pId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
+            @Override
+            public void postData(String result) {
+
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject obj = jsonArray.getJSONObject(0);
+                    emailId = obj.getString("emailId");
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+        };
+        String url = "http://192.168.43.19:5000/getEmail";
+        new SubmitAsyncTask(ProjectActivity.this, url, obj, mycallback).execute();
+    }
 }

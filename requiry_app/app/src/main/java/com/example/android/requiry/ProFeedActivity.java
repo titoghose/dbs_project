@@ -103,7 +103,7 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
                 String created_by = obj.getString("pCreated_By");
                 String  domain = obj.getString("pDomain");
                 SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,YYYY");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,yyyy");
                 String start_date = null;
                 String end_date = null;
                 try {

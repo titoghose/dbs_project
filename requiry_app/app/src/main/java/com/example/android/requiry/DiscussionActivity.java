@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,7 +38,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private TimerTask timerTask;
 
     final Handler handler = new Handler();
-
+    private ListView listViewToDo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class DiscussionActivity extends AppCompatActivity {
         actionBar.setCustomView(v);
 
         mAdapter = new DiscussionsAdapter(this, R.layout.discussions_message);
-        ListView listViewToDo = (ListView) findViewById(R.id.msgview);
+        listViewToDo = (ListView) findViewById(R.id.msgview);
         listViewToDo.setAdapter(mAdapter);
 
         message = (EditText) findViewById(R.id.msg);
@@ -110,6 +111,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private void refreshItemsFromTable() {
 
+        mAdapter.setNotifyOnChange(false);
         mAdapter.clear();
 
         JSONObject obj = new JSONObject();
@@ -131,7 +133,7 @@ public class DiscussionActivity extends AppCompatActivity {
                         String msg = obj.getString("msg");
                         String time_stamp = obj.getString("sTime");
                         SimpleDateFormat date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,YYYY");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd,yyyy");
                         String s_date = null;
                         try {
                             Date st_date = date.parse(time_stamp);
@@ -141,13 +143,13 @@ public class DiscussionActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("Pro Feed", "Parsing failed miserably " + e);
                         }
-
-                        mAdapter.add(new Discussions(pName, uName, msg, s_date));
+                        Discussions d = new Discussions(pName, uName, msg, s_date);
+                        mAdapter.add(d);
                     }
+                    mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         };
         String url = "http://192.168.43.19:5000/DiscussionsQuery";

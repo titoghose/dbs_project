@@ -18,8 +18,7 @@
         android:background="@null"
         android:divider="@null"
         android:stackFromBottom="true"
-        android:layout_above="@+id/postmessage"
-        android:transcriptMode="alwaysScroll"/>
+        android:layout_above="@+id/postmessage"/>
 
     <LinearLayout
         android:id="@+id/postmessage"
