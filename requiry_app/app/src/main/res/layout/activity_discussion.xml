@@ -19,7 +19,6 @@
         android:divider="@null"
         android:layout_above="@+id/postmessage"
         android:stackFromBottom="true"/>
-
     <LinearLayout
         android:id="@+id/postmessage"
         android:layout_width="match_parent"

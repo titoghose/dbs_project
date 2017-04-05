@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,7 +41,7 @@ public class DiscussionActivity extends AppCompatActivity {
     private ArrayList<Discussions> arrayList;
 
     final Handler handler = new Handler();
-
+    private ListView listViewToDo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,11 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private void refreshItemsFromTable() {
 
-        final JSONObject obj = new JSONObject();
+
+        mAdapter.setNotifyOnChange(false);
+        mAdapter.clear();
+
+        JSONObject obj = new JSONObject();
         try {
             obj.put("uProjectId", ""+pId);
         } catch (JSONException e) {
@@ -144,17 +149,13 @@ public class DiscussionActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("Pro Feed", "Parsing failed miserably " + e);
                         }
-                        arrayList.add(new Discussions(pName, uName, msg, s_date));
-                        //mAdapter.add(new Discussions(pName, uName, msg, s_date));
+                        Discussions d = new Discussions(pName, uName, msg, s_date);
+                        mAdapter.add(d);
                     }
-                    mAdapter.setNotifyOnChange(false);
-                    mAdapter.clear();
-                    mAdapter.addAll(arrayList);
                     mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         };
         String url = "http://192.168.43.19:5000/DiscussionsQuery";

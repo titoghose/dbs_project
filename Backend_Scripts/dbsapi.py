@@ -260,5 +260,23 @@ def createproject():
         return "Failed"
 
 
+@app.route('/getEmail', methods=['POST'])
+def contribution():
+    if request.method == 'POST':
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        data = request.get_json()
+        print(data)
+        pID = data["pID"]
+        cursor.execute(
+            "SELECT uEmail from projects p, requiry_user r WHERE p.uID = r.uID and p.pID = %s;",(pID))
+        res = cursor.fetchall()
+        i = cursor.rowcount
+        values = []
+        for j in range(0, i, 1):
+            values.append({"uEmail": res[j][0]})
+        cursor.close()
+        return jsonify(values)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
