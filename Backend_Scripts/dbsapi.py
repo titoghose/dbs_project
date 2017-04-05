@@ -261,7 +261,7 @@ def createproject():
 
 
 @app.route('/getEmail', methods=['POST'])
-def contribution():
+def getEmail():
     if request.method == 'POST':
         conn = mysql.connect()
         cursor = conn.cursor()

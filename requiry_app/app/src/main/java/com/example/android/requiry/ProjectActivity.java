@@ -19,9 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ProjectActivity extends AppCompatActivity {
 
     private String pId;
@@ -74,12 +71,20 @@ public class ProjectActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
 
-
+        if(!mLinks.getText().equals("null")){
+            mLinks.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(""+mLinks.getText()));
+                    startActivity(intent);
+                }
+            });
+        }
         if(!(uName.equalsIgnoreCase(mCreator.getText().toString().trim()))){
             mApply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    sendEmail();
+                    getEmailDetails();
                 }
             });
         }
@@ -124,7 +129,7 @@ public class ProjectActivity extends AppCompatActivity {
         mContributors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("ProjectActivity",""+pId);
+          //      Log.e("ProjectActivity",""+pId);
                 Intent  intent = new Intent(ProjectActivity.this,ContributionActivity.class).putExtra("pID",pId);
                 startActivity(intent);
             }
@@ -134,19 +139,18 @@ public class ProjectActivity extends AppCompatActivity {
 
 
     protected void sendEmail() {
-        getEmailDetails();
 
         Log.i("Send email", "");
         String[] TO = {emailId};
         String[] CC = {""};
-        String sample="Dear "+mCreator+",\n\n(Your email goes here)\n\n(Please upload your CV and Cover Letter as attachments)\n\nsent via Requiry";
+        String sample="Dear "+mCreator.getText()+",\n\n(Your email goes here)\n\n(Please upload your CV and Cover Letter as attachments)\n\nsent via Requiry";
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
-
+        //Log.e("PrjActiv",""+emailId);
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailId});
         emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Application For : "+ mName);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Application For : "+ mName.getText());
         emailIntent.putExtra(Intent.EXTRA_TEXT, sample);
 
         try {
@@ -171,14 +175,16 @@ public class ProjectActivity extends AppCompatActivity {
         SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
             @Override
             public void postData(String result) {
-
+                Log.e("Project Activity",result);
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     JSONObject obj = jsonArray.getJSONObject(0);
-                    emailId = obj.getString("emailId");
+                    emailId = obj.getString("uEmail");
+                  //  Log.e("Project Activity",emailId);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
+                sendEmail();
                 }
         };
         String url = "http://192.168.43.19:5000/getEmail";

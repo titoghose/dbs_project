@@ -19,9 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,8 +35,6 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private Timer timer;
     private TimerTask timerTask;
-    private  ListView listViewToDo;
-    private ArrayList<Discussions> arrayList;
 
     final Handler handler = new Handler();
     private ListView listViewToDo;
@@ -64,7 +60,6 @@ public class DiscussionActivity extends AppCompatActivity {
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(v);
 
-        arrayList = new ArrayList<>();
         mAdapter = new DiscussionsAdapter(this, R.layout.discussions_message);
         listViewToDo = (ListView) findViewById(R.id.msgview);
         listViewToDo.setAdapter(mAdapter);
@@ -131,7 +126,6 @@ public class DiscussionActivity extends AppCompatActivity {
             @Override
             public void postData(String result) {
                 try {
-                    arrayList.clear();
                     JSONArray jsonArray = new JSONArray(result);
                     for(int i = 0; i<jsonArray.length(); i++){
                         JSONObject obj = jsonArray.getJSONObject(i);
