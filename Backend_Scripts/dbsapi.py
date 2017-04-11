@@ -92,6 +92,52 @@ def discussionquery():
     else:
         return "error"
 
+@app.route('/DomainsQuery', methods=['POST'])
+def discussionquery():
+    if request.method == 'POST':
+        content = request.get_json()
+        pID = content["uProjectId"]
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT dID, dName, dNumOfProj FROM domains")
+        data = cursor.fetchall()
+        i = cursor.rowcount
+        jsonstr = []
+        for j in range(0, i, 1):
+            datastr = {
+                "dID": data[j][0],
+                "dName": data[j][1],
+                "dNumOfProj": data[j][2]
+            }
+            jsonstr.append(datastr)
+        cursor.close()
+        return jsonify(jsonstr)
+    else:
+        return "error"
+
+@app.route('/ResourcesQuery', methods=['POST'])
+def discussionquery():
+    if request.method == 'POST':
+        content = request.get_json()
+        dName = content["dName"]
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT rLink FROM resources WHERE dName = %s", (dName))
+        data = cursor.fetchall()
+        i = cursor.rowcount
+        jsonstr = []
+        for j in range(0, i, 1):
+            datastr = {
+                "rLink": data[j][0]
+            }
+            jsonstr.append(datastr)
+        cursor.close()
+        return jsonify(jsonstr)
+    else:
+        return "error"
+
 
 @app.route('/DeleteUser', methods=['POST'])
 def deleteuser():
@@ -250,6 +296,8 @@ def createproject():
         cursor.execute(
             "INSERT INTO projects(pName, uID, pDomain, pDesc, pDateEnds, pLink) VALUES(%s, %s, %s, %s, %s, %s);",
             (name, created_by, domain, desc, date_ends,pLink))
+        cursor.execute(
+            "UPDATE domains SET dNumOfProj = dNumOfProj + 1 WHERE dName = %s", (domain))
         conn.commit()
         cursor.close()
     else:
