@@ -20,7 +20,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -111,6 +110,7 @@ public class DiscussionActivity extends AppCompatActivity {
 
     private void refreshItemsFromTable() {
 
+
         mAdapter.setNotifyOnChange(false);
         mAdapter.clear();
 
@@ -121,10 +121,10 @@ public class DiscussionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
+
+        final SubmitAsyncTask.InformComplete mycallback = new SubmitAsyncTask.InformComplete() {
             @Override
             public void postData(String result) {
-
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     for(int i = 0; i<jsonArray.length(); i++){
@@ -155,6 +155,7 @@ public class DiscussionActivity extends AppCompatActivity {
         String url = "http://192.168.43.19:5000/DiscussionsQuery";
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
     }
+
 
     private void sendMessage() {
         String msg = message.getText().toString().trim();
