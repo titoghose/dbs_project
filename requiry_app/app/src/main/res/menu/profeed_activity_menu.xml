@@ -10,4 +10,7 @@
     <item
         android:id = "@+id/user_logout"
         android:title="Logout"/>
+    <item
+        android:id="@+id/domains"
+        android:title="Domains"/>
 </menu>

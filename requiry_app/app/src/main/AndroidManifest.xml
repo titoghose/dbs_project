@@ -35,7 +35,9 @@
         <activity android:name=".ProjectActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DiscussionActivity" />
-        <activity android:name=".ContributionActivity"></activity>
+        <activity android:name=".ContributionActivity" />
+        <activity android:name=".DomainsActivity" />
+        <activity android:name=".ResourcesActivity"></activity>
     </application>
 
 </manifest>

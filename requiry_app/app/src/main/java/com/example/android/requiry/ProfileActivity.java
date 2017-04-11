@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
         final Bundle myBundle = getIntent().getExtras();
         user_Identity = myBundle.getString("identifier");
         Log.e("ProfileActivity",""+user_Identity);
+
         if(user_Identity.equals("notloggedInUser")) {
             mEditProfileImageButton.setVisibility(View.INVISIBLE);
             mDeleteButton.setVisibility(View.INVISIBLE);

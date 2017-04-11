@@ -164,6 +164,10 @@ public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter
             Intent intent = new Intent(ProFeedActivity.this,SignInActivity.class);
             NavUtils.navigateUpTo(ProFeedActivity.this,intent);
         }
+        else if(id == R.id.domains){
+            Intent goToDomains = new Intent(ProFeedActivity.this, DomainsActivity.class);
+            startActivity(goToDomains);
+        }
         return true;
     }
 
