@@ -93,7 +93,7 @@ def discussionquery():
         return "error"
 
 @app.route('/DomainsQuery', methods=['POST'])
-def discussionquery():
+def domainquery():
     if request.method == 'POST':
         content = request.get_json()
         pID = content["uProjectId"]
@@ -102,6 +102,9 @@ def discussionquery():
         cursor.execute(
             "SELECT dID, dName, dNumOfProj FROM domains")
         data = cursor.fetchall()
+        #cursor.execute(
+        #    "SELECT pDomain, count(*) FROM projects p GROUP BY pDomain")
+        #data2 = cursor.fetchall()
         i = cursor.rowcount
         jsonstr = []
         for j in range(0, i, 1):
@@ -117,7 +120,7 @@ def discussionquery():
         return "error"
 
 @app.route('/ResourcesQuery', methods=['POST'])
-def discussionquery():
+def resourcesquery():
     if request.method == 'POST':
         content = request.get_json()
         dName = content["dName"]
@@ -214,7 +217,7 @@ def profeed():
     if request.method == 'GET':
         conn = mysql.connect()
         cursor = conn.cursor()
-        query = "SELECT pID,pName,uName AS pCreated_By,pDomain,pDesc,pDateStarts,pDateEnds,pLink FROM projects p,requiry_user u WHERE p.uID=u.uID ;"
+        query = "SELECT pID,pName,uName AS pCreated_By,pDomain,pDesc,pDateStarts,pDateEnds,pLink FROM projects p,requiry_user u WHERE p.uID=u.uID ORDER BY pDateStarts ;"
         cursor.execute(query)
         data = cursor.fetchall()
         i = cursor.rowcount
@@ -272,7 +275,10 @@ def deleteproject():
         pid = content["pID"]
         conn = mysql.connect()
         cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE domains SET dNumOfProj = dNumOfProj - 1 WHERE dName IN (SELECT pDomain from projects WHERE pID=%s);", (pid))
         cursor.execute("DELETE FROM projects WHERE pID = %s;", pid)
+        conn.commit()
         cursor.close()
         return "success"
     else:

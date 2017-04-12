@@ -47,7 +47,7 @@ public class DomainsAdapter extends ArrayAdapter<Domains>{
         tv1.setText(currentItem.getdName());
 
         final TextView tv2 = (TextView) row.findViewById(R.id.dNumOfProj);
-        tv2.setText(currentItem.getdNumOfProj());
+        tv2.setText(""+currentItem.getdNumOfProj());
 
         return row;
     }

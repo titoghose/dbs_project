@@ -31,7 +31,11 @@
         <activity
             android:name=".ProFeedActivity"
             android:label="ProFeed" />
-        <activity android:name=".CreateProjectActivity" />
+        <activity android:name=".CreateProjectActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".ProFeedActivity" />
+        </activity>
         <activity android:name=".ProjectActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DiscussionActivity" />

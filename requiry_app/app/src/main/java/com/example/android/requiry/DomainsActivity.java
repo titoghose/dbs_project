@@ -1,24 +1,19 @@
 package com.example.android.requiry;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 public class DomainsActivity extends AppCompatActivity {
 
@@ -47,6 +42,7 @@ public class DomainsActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                Log.e("Domains","listerner working");
                 // When clicked, show a toast with the TextView text
                 Domains domains = (Domains) listView.getItemAtPosition(position);
                 Intent goToResources = new Intent(DomainsActivity.this, ResourcesActivity.class);
