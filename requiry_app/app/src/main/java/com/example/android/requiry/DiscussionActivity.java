@@ -152,7 +152,7 @@ public class DiscussionActivity extends AppCompatActivity {
                 }
             }
         };
-        String url = "http://192.168.43.19:5000/DiscussionsQuery";
+        String url = "http:///DiscussionsQuery"//TODO Add URL here;
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
     }
 
@@ -176,7 +176,7 @@ public class DiscussionActivity extends AppCompatActivity {
             }
         };
         message.setText("");
-        String url = "http://192.168.43.19:5000/Discussions";
+        String url = "http:///Discussions";//TODO Add URL here
         new SubmitAsyncTask(DiscussionActivity.this, url, obj, mycallback).execute();
         refreshItemsFromTable();
 

@@ -84,7 +84,7 @@ public class DomainsActivity extends AppCompatActivity {
                 }
             }
         };
-        String url = "http://192.168.43.19:5000/DomainsQuery";
+        String url = "http:///DomainsQuery";//TODO Add URL here
         new SubmitAsyncTask(DomainsActivity.this, url, obj, mycallback).execute();
     }
 }

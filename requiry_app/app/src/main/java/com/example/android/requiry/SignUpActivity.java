@@ -2,6 +2,7 @@ package com.example.android.requiry;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +24,18 @@ public class SignUpActivity extends AppCompatActivity{
     private EditText mEmailEditText;
     private Bundle myBundle;
     private Button mRegisterButton;
-    private final String urlSignUp = "http://192.168.43.19:5000/SignUp";//Add your Sign Up url here
-    private final String urlEditProfile = "http://192.168.43.19:5000/EditProfile";//Add your Edit Profile url here
+    private final String urlSignUp = "http:///SignUp";//TODO Add your Sign Up url here
+    private final String urlEditProfile = "http:///EditProfile";//TODO Add your Edit Profile url here
     private RadioGroup radioGroup;
     private boolean flag;
+
+    private long number;
+    private String name;
+    private  String email;
+    private String username;
+    private String password;
+    private String desc;
+    private int who;
     JSONObject jsonObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +81,13 @@ public class SignUpActivity extends AppCompatActivity{
 
     }
     public void registerUser(String url){
-        Long number = null;
-        String name = mNameEditText.getText().toString().trim();
+        name = mNameEditText.getText().toString().trim();
         if(!TextUtils.isEmpty(mNumberEditText.getText().toString().trim()))
             number  = Long.parseLong(mNumberEditText.getText().toString());
-        String email = mEmailEditText.getText().toString().trim();
-        String username = mUsernameEditText.getText().toString().trim();
-        String password = mPasswordEditText.getText().toString().trim();
-        String desc = mDescEditText.getText().toString().trim();
+        email = mEmailEditText.getText().toString().trim();
+        username = mUsernameEditText.getText().toString().trim();
+        password = mPasswordEditText.getText().toString().trim();
+        desc = mDescEditText.getText().toString().trim();
         if(TextUtils.isEmpty(name)){
             mNameEditText.requestFocus();
             mNameEditText.setError("This field is required");
@@ -100,7 +108,6 @@ public class SignUpActivity extends AppCompatActivity{
             mPasswordEditText.setError("This field is required");
             return;
         }
-        int who;
         /**
          * Radio Group
          * if the user is Student then in database it is stored as 0
@@ -136,6 +143,18 @@ public class SignUpActivity extends AppCompatActivity{
                 mEmailEditText.setText("");
                 if(result.equals("success")) {
                     if(myBundle!=null){
+                        SharedPreferences sp = getSharedPreferences("User", MODE_PRIVATE);
+                        if(sp!=null){
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("uName", name);
+                            editor.putLong("uNumber", number);
+                            editor.putString("uEmail", email);
+                            editor.putString("uUsername", username);
+                            editor.putString("uPassword", password);
+                            editor.putInt("uWho", who);
+                            editor.putString("uDesc", desc);
+                            editor.apply();
+                        }
                         finish();
                     }
                     else

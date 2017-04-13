@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ProFeedActivity extends AppCompatActivity implements ProFeedAdapter.ListItemClickListener,LoaderManager.LoaderCallbacks<String> {
-    private static final String url = "http://192.168.43.19:5000/ProFeed";
+    private static final String url = "http:///ProFeed";//TODO Add URL here
     private ProFeedAdapter proFeedAdapter;
     private RecyclerView recyclerView;
     ArrayList<ProFeedData> extractedData;

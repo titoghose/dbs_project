@@ -100,7 +100,7 @@ def domainquery():
         conn = mysql.connect()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT dID, dName, dNumOfProj FROM domains")
+            "SELECT  dName, dNumOfProj FROM domains")
         data = cursor.fetchall()
         #cursor.execute(
         #    "SELECT pDomain, count(*) FROM projects p GROUP BY pDomain")
@@ -109,9 +109,8 @@ def domainquery():
         jsonstr = []
         for j in range(0, i, 1):
             datastr = {
-                "dID": data[j][0],
-                "dName": data[j][1],
-                "dNumOfProj": data[j][2]
+                "dName": data[j][0],
+                "dNumOfProj": data[j][1]
             }
             jsonstr.append(datastr)
         cursor.close()

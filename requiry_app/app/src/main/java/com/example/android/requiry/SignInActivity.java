@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -125,7 +123,7 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     }
                 };
-                String url = "http://192.168.43.19:5000/SignIn";
+                String url = "http:///SignIn";//TODO Add URL here
                 new SubmitAsyncTask(SignInActivity.this, url, obj, mycallback).execute();
 
             }
@@ -140,6 +138,11 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(moveToSignUp);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
 }

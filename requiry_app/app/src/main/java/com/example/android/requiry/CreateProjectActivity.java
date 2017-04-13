@@ -3,7 +3,6 @@ package com.example.android.requiry;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -124,11 +123,11 @@ public class CreateProjectActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else{
-                    NavUtils.navigateUpFromSameTask(CreateProjectActivity.this);
+                    Toast.makeText(CreateProjectActivity.this, "Error Occurred", Toast.LENGTH_SHORT).show();
                 }
             }
         };
-        String url = "http://192.168.43.19:5000/CreateProject";
+        String url = "http:///CreateProject";//TODO Add URL here
         new SubmitAsyncTask(CreateProjectActivity.this, url, jsonObject, mycallback).execute();
     }
 

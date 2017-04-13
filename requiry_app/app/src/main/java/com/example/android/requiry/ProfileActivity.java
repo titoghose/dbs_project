@@ -89,15 +89,18 @@ public class ProfileActivity extends AppCompatActivity {
                     public void postData(String result) {
                         if(result.equals("success")) {
                             Toast.makeText(ProfileActivity.this, "User Deleted", Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = getSharedPreferences("User",MODE_PRIVATE).edit();
+                            editor.clear(); //clear all stored data
+                            editor.apply();
                             Intent intent = new Intent(ProfileActivity.this,SignInActivity.class);
-                            NavUtils.navigateUpTo(ProfileActivity.this,intent);
+                            startActivity(intent);
                         }
                         else{
                             Toast.makeText(ProfileActivity.this,"Error Occurred",Toast.LENGTH_SHORT).show();
                         }
                     }
                 };
-                String url = "http://192.168.43.19:5000/DeleteUser";
+                String url = "http:///DeleteUser";//TODO Add URL here
                 new SubmitAsyncTask(ProfileActivity.this,url,jsonObject,myCallback).execute();
             }
         });

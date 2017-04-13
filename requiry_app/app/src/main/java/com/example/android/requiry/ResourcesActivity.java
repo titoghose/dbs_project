@@ -77,7 +77,7 @@ public class ResourcesActivity extends AppCompatActivity {
                 }
             }
         };
-        String url = "http://192.168.43.19:5000/ResourcesQuery";
+        String url = "http:///ResourcesQuery";//TODO Add URL here
         new SubmitAsyncTask(ResourcesActivity.this, url, obj, mycallback).execute();
     }
 }

@@ -112,7 +112,7 @@ public class ProjectActivity extends AppCompatActivity {
                             }
                         }
                     };
-                    String url = "http://192.168.43.19:5000/DeleteProject";
+                    String url = "http:///DeleteProject";//TODO Add URL here
                     new SubmitAsyncTask(ProjectActivity.this, url, jsonObject, myCallback).execute();
                 }
             });
@@ -187,7 +187,7 @@ public class ProjectActivity extends AppCompatActivity {
                 sendEmail();
                 }
         };
-        String url = "http://192.168.43.19:5000/getEmail";
+        String url = "http:///getEmail";//TODO Add URL here
         new SubmitAsyncTask(ProjectActivity.this, url, obj, mycallback).execute();
     }
 }

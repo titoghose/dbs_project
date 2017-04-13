@@ -20,7 +20,7 @@ public class ContributionActivity extends AppCompatActivity implements Contribut
     ArrayList<UserData> extractedData;
     int pID;
     JSONObject jsonObject;
-    private final String url = "http://192.168.43.19:5000/Contributor";
+    private final String url = "http:///Contributor";//TODO Add URL here
 
     @Override
     protected void onCreate(Bundle savedInstanceState)   {
